@@ -7,20 +7,6 @@ pipeline {
       }
     }
 
-stage('Sonarqube') {
-    environment {
-        scannerHome = tool 'sonarqube'
-    }
-    steps {
-        withSonarQubeEnv('sonarqube-server') {
-            sh "${scannerHome}/bin/sonar-scanner -Dproject.settings=/var/lib/jenkins/workspace/$JOB_NAME/sonar-project.properties"
-        }
-        timeout(time: 10, unit: 'MINUTES') {
-            waitForQualityGate abortPipeline: true
-        }
-    }
-}
-
     stage('npm install') {
       steps {
         sh label: '', script: '''npm install
