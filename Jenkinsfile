@@ -52,7 +52,7 @@ pipeline {
 	zip -r /data/vhosts/live.aerovoyce.net_5454/public/Artifact/AV-ADMIN_${date}.zip /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN
 	rm -r /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN
 	fi
-	fi''', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: 	false, removePrefix: '', sourceFiles: ''), sshTransfer(cleanRemote: false, excludes: '', execCommand: '''post_check() {
+	fi''', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/vhosts/live.aerovoyce.net_5454/public/', remoteDirectorySDF: 	false, removePrefix: '', sourceFiles: 'AV-ADMIN.zip'), sshTransfer(cleanRemote: false, excludes: '', execCommand: '''post_check() {
 	cd /data/vhosts/live.aerovoyce.net_5454/public/
 	if [ -f /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN.zip ];
 	then
