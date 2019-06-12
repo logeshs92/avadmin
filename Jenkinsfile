@@ -65,7 +65,8 @@ pipeline {
     		sshTransfer(
 			sourceFiles: 'AV-ADMIN.zip', 
 			remoteDirectory: '/vhosts/live.aerovoyce.net_5454/public/',
-			execCommand: '''post_check() {
+			execCommand: '''
+			post_check() {
 			cd /data/vhosts/live.aerovoyce.net_5454/public/
 			if [ -f /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN.zip ];
 			then
@@ -74,7 +75,7 @@ pipeline {
 			else
 			echo "AV-ADMIN.zip does not exist"
 			fi
-			}
+				}
 		
 			post () {
 			if [ -f /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/package.json ];
