@@ -30,7 +30,7 @@ pipeline {
 
     stage('deploy') {
       steps {
-sshPublisher(publishers: [sshPublisherDesc(configName: 'AV-ADMIN', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/vhosts/live.aerovoyce.net_5454/public/', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'AV-ADMIN.zip')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: true)])
+sshPublisher(publishers: [sshPublisherDesc(configName: 'AV-ADMIN', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '/vhosts/live.aerovoyce.net/public/Artifact/', remoteDirectorySDF: false, removePrefix: '', sourceFiles: 'AV-ADMIN.zip')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: true)])
 	  }
 	}
 	
