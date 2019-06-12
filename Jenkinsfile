@@ -52,7 +52,7 @@ then
 zip -r /data/vhosts/live.aerovoyce.net_5454/public/Artifact/AV-ADMIN_${date}.zip /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN
 rm -r /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN
 fi
-fi''', sshTransfer(sourceFiles: 'AV-ADMIN.zip', remoteDirectory: '/vhosts/live.aerovoyce.net_5454/public/', execCommand: '''post_check() {
+fi'''), sshTransfer(sourceFiles: 'AV-ADMIN.zip', remoteDirectory: '/vhosts/live.aerovoyce.net_5454/public/', execCommand: '''post_check() {
 cd /data/vhosts/live.aerovoyce.net_5454/public/
 if [ -f /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN.zip ];
 then
@@ -78,7 +78,7 @@ pm2 start /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/Node_Server/node.
 rm -r /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN.zip
 fi
 }
-post_check''')])
+post_check''')])])
 	  }
 	}
 	
