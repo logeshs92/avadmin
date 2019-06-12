@@ -91,9 +91,7 @@ pipeline {
 			rm -r /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN.zip
 			fi
 			}
-			post_check'''
-		)
-		])
+			post_check''')])
       		}
 	    }
 	
