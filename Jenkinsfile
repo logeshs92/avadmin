@@ -24,6 +24,7 @@ pipeline {
 EOF
 cp -r Node_Server AV-ADMIN/
 cp -r package.json AV-ADMIN/
+cp -r /data/deployment/AV-ADMIN/Node_Server/configExternal/baseconfig.json AV-ADMIN/Node_Server/configExternal/
 zip -r AV-ADMIN.zip AV-ADMIN'''
       }
     }
