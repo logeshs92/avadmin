@@ -95,8 +95,7 @@ pipeline {
 			post_check'''
 		)
 		])
-            }
-        }
+			}
 	
      }
   }
