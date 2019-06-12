@@ -30,72 +30,56 @@ pipeline {
 
     stage('deploy') {
       steps {
-	      sshPublisher(
- 		continueOnError: false, failOnError: true,
- 		publishers: [
- 		sshPublisherDesc(
-  		configName: 'AV-ADMIN', 
-  		verbose: true,
-  		transfers: [
-    		sshTransfer(
-        		execCommand: '''date=$(date +\'%Y%m%d%H%M%S\')
-			status=$(pm2 ls -m | grep status | awk \'{print $3}\')
-			if [ -f /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN.zip ];
-			then    
-			rm -r /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN.zip
-			fi
-			if [ "$status" == "online" ];
-			then
-			pm2 stop /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/Node_Server/node.js
-			if [ -d /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN ];
-			then
-			#mv /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN /data/vhosts/live.aerovoyce.net_5454/public/Artifact/AV-ADMIN_${date}
-			zip -r /data/vhosts/live.aerovoyce.net_5454/public/Artifact/AV-ADMIN_${date}.zip /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN
-			rm -r /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN
-			fi
-			else
-			if [ -d /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN ];
-			then
-			#mv /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN /data/vhosts/live.aerovoyce.net_5454/public/Artifact/AV-ADMIN_${date}
-			zip -r /data/vhosts/live.aerovoyce.net_5454/public/Artifact/AV-ADMIN_${date}.zip /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN
-			rm -r /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN
-			fi
-			fi'''
-		), 
-    		sshTransfer(
-			sourceFiles: 'AV-ADMIN.zip', 
-			remoteDirectory: '/vhosts/live.aerovoyce.net_5454/public/',
-			execCommand: '''
-			post_check() {
-			cd /data/vhosts/live.aerovoyce.net_5454/public/
-			if [ -f /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN.zip ];
-			then
-			unzip AV-ADMIN.zip
-			post
-			else
-			echo "AV-ADMIN.zip does not exist"
-			fi
-				}
-		
-			post () {
-			if [ -f /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/package.json ];
-			then
-			cd /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/
-			npm install
-			pm2 start /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/Node_Server/node.js
-			rm -r /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN.zip
-			elif [ -f /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/Node_Server/package.json ];
-			then
-			cd /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/Node_Server/
-			npm install
-			pm2 start /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/Node_Server/node.js
-			rm -r /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN.zip
-			fi
-			}
-			post_check''')])
-			
+	sshPublisher(continueOnError: false, failOnError: true, publishers: [sshPublisherDesc(configName: 'AV-ADMIN', verbose: false, transfers: [sshTransfer(execCommand: '''date=$(date +\\\'%Y%m%d%H%M%S\\\')
+status=$(pm2 ls -m | grep status | awk \\\'{print $3}\\\')
+if [ -f /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN.zip ];
+then    
+rm -r /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN.zip
+fi
+if [ "$status" == "online" ];
+then
+pm2 stop /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/Node_Server/node.js
+if [ -d /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN ];
+then
+#mv /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN data/vhosts/live.aerovoyce.net_5454/public/Artifact/AV-ADMIN_${date}
+zip -r /data/vhosts/live.aerovoyce.net_5454/public/Artifact/AV-ADMIN_${date}.zip /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN
+rm -r /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN
+fi
+else
+if [ -d /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN ];
+then
+#mv /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN /data/vhosts/live.aerovoyce.net_5454/public/Artifact/AV-ADMIN_${date}
+zip -r /data/vhosts/live.aerovoyce.net_5454/public/Artifact/AV-ADMIN_${date}.zip /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN
+rm -r /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN
+fi
+fi''', sshTransfer(sourceFiles: 'AV-ADMIN.zip', remoteDirectory: '/vhosts/live.aerovoyce.net_5454/public/', execCommand: '''post_check() {
+cd /data/vhosts/live.aerovoyce.net_5454/public/
+if [ -f /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN.zip ];
+then
+unzip AV-ADMIN.zip
+post
+else
+echo "AV-ADMIN.zip does not exist"
+fi
+}
+
+post () {
+if [ -f /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/package.json ];
+then
+cd /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/
+npm install
+pm2 start /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/Node_Server/node.js
+rm -r /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN.zip
+elif [ -f /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/Node_Server/package.json ];
+then
+cd /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/Node_Server/
+npm install
+pm2 start /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/Node_Server/node.js
+rm -r /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN.zip
+fi
+}
+post_check''')])
 	  }
-	
 	}
 	
      }
