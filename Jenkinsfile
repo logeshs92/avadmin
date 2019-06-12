@@ -21,10 +21,10 @@ pipeline {
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteRule . ./AV-ADMIN/index.html [L]
 	</IfModule>
-	EOF
-	cp -r Node_Server AV-ADMIN/
-	cp -r package.json AV-ADMIN/
-	zip -r AV-ADMIN.zip AV-ADMIN'''
+EOF
+cp -r Node_Server AV-ADMIN/
+cp -r package.json AV-ADMIN/
+zip -r AV-ADMIN.zip AV-ADMIN'''
       }
     }
 
