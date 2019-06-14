@@ -42,15 +42,15 @@ then
 pm2 stop /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/Node_Server/node.js
 if [ -d /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN ];
 then
-#mv /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN /data/vhosts/live.aerovoyce.net_5454/public/Artifact/AV-ADMIN_${date}
-zip -r /data/vhosts/live.aerovoyce.net_5454/public/Artifact/AV-ADMIN_${date}.zip /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN
+cd /data/vhosts/live.aerovoyce.net_5454/public/
+zip -r /data/vhosts/live.aerovoyce.net_5454/public/Artifact/AV-ADMIN_${date}.zip AV-ADMIN
 rm -r /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN
 fi
 else
 if [ -d /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN ];
 then
-#mv /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN /data/vhosts/live.aerovoyce.net_5454/public/Artifact/AV-ADMIN_${date}
-zip -r /data/vhosts/live.aerovoyce.net_5454/public/Artifact/AV-ADMIN_${date}.zip /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN
+cd /data/vhosts/live.aerovoyce.net_5454/public/
+zip -r /data/vhosts/live.aerovoyce.net_5454/public/Artifact/AV-ADMIN_${date}.zip AV-ADMIN
 rm -r /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN
 fi
 fi''', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: ''), sshTransfer(cleanRemote: false, excludes: '', execCommand: '''post_check() {
