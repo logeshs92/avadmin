@@ -86,7 +86,7 @@ stage('test') {
       steps {
 	      sh label: '', script: '''#!/bin/bash
 sleep 30
-curl --connect-timeout 10 -sf "https://live.aerovoyce.net:5443" >/dev/null
+curl --connect-timeout 10 --insecure -sf "https://live.aerovoyce.net:5443" >/dev/null
 curl_test=$(echo $?)
 node_test=$(pm2 ls -m | grep -A10 "+--- stage" | grep status | awk \'{print $3}\' | head -1)
 if [[ "$curl_test" -eq "0" ]] && [[ "$node_test" -eq "online" ]];
