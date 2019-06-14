@@ -11,7 +11,7 @@ pipeline {
       steps {
         sh label: '', script: '''npm install
 	npm rebuild node-sass --force
-	node --max_old_space_size=2048 node_modules/@angular/cli/bin/ng build --configuration=staging	
+	node --max_old_space_size=3000 node_modules/@angular/cli/bin/ng build --configuration=staging	
 	tee AV-ADMIN/.htaccess << EOF
 	<IfModule mod_rewrite.c>
 	RewriteEngine On
@@ -32,12 +32,12 @@ zip -r AV-ADMIN.zip AV-ADMIN'''
     stage('deploy') {
       steps {
 sshPublisher(publishers: [sshPublisherDesc(configName: 'AV-ADMIN', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: '''date=$(date +\'%Y%m%d%H%M%S\')
-status=$(pm2 ls -m | grep status | awk \'{print $3}\')
+status=$(pm2 ls -m | grep -A10 "+--- stage" | grep status | awk '{print $3}' | head -1)
 if [ -f /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN.zip ];
 then    
 rm -r /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN.zip
 fi
-if [ "$status" == "online" ];
+if [ "$status" == "online" ] && [ -f /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/Node_Server/node.js ];
 then
 pm2 stop /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/Node_Server/node.js
 if [ -d /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN ];
@@ -69,13 +69,13 @@ if [ -f /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/package.json ];
 then
 cd /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/
 npm install
-pm2 start /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/Node_Server/node.js
+pm2 start /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/Node_Server/node.js --name stage
 rm -r /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN.zip
 elif [ -f /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/Node_Server/package.json ];
 then
 cd /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/Node_Server/
 npm install
-pm2 start /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/Node_Server/node.js
+pm2 start /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN/Node_Server/node.js --name stage
 rm -r /data/vhosts/live.aerovoyce.net_5454/public/AV-ADMIN.zip
 fi
 }
